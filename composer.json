@@ -1,0 +1,19 @@
+{
+    "name": "eher/ldd",
+    "description": "Fake Rest API to generate BDD test cases",
+    "require": {
+        "eher/phpunit": "*",
+        "predis/predis": "v0.7.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Eher\\Ldd": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Eher",
+            "email": "alexandre@eher.com.br"
+        }
+    ]
+}
