@@ -23,6 +23,26 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             "PATH_INFO" => "/test/path",
         );
         $this->request->proccessRequest($request);
-        $this->assertEquals('{"verb":"get","path":"\/test\/path"}', $this->request->toJson());
+        $this->assertEquals(
+            '{"verb":"get","path":"\/test\/path","parameters":null}',
+            $this->request->toJson()
+        );
+    }
+
+    public function testProccessRequestWithParameters()
+    {
+        $request = array(
+            "REQUEST_METHOD" => "GET",
+            "PATH_INFO" => "/test/path",
+        );
+        $parameters = array(
+            "eher" => "test",
+        );
+        $this->request->proccessRequest($request);
+        $this->request->proccessParameters($parameters);
+        $this->assertEquals(
+            '{"verb":"get","path":"\/test\/path","parameters":{"eher":"test"}}',
+            $this->request->toJson()
+        );
     }
 }
