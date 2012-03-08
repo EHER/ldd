@@ -6,5 +6,7 @@
 # Run tests
 
     phpunit test
+
 or
+
     vendor/EHER/PHPUnit/phpunit.php test
