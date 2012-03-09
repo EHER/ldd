@@ -2,6 +2,8 @@
 
 namespace Eher\Ldd;
 
+use Guzzle\Http\Message\Response as GuzzleResponse;
+
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
     private $request;
@@ -48,5 +50,39 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             '{"verb":"get","protocol":"http","hostname":"eher.com.br","path":"\/test\/path","parameters":{"eher":"test"}}',
             $this->request->toJson()
         );
+    }
+
+    public function testExecuteRequest()
+    {
+        $responseMock = $this->getMock("GuzzleResponse", array("getStatusCode", "getReasonPhrase"));
+        $responseMock->expects($this->any())
+            ->method('getStatusCode')
+            ->will($this->returnValue("200"));
+        $responseMock->expects($this->any())
+            ->method('getReasonPhrase')
+            ->will($this->returnValue("OK"));
+
+        $clientMock = $this->getMock("Client", array("get", "send"));
+        $clientMock->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($clientMock));
+        $clientMock->expects($this->any())
+            ->method('send')
+            ->will($this->returnValue($responseMock));
+
+        $request = array(
+            "REQUEST_METHOD" => "GET",
+            "SERVER_PROTOCOL" => "HTTP/1.1",
+            "HTTP_HOST" => "eher.com.br",
+            "PATH_INFO" => "/test/path",
+        );
+        $parameters = array(
+            "eher" => "test",
+        );
+        $this->request = new Request($request, $parameters);
+        $response = $this->request->execute($clientMock);
+        $this->assertTrue($response instanceof Response);
+        $this->assertEquals('200', $response->getStatusCode());
+        $this->assertEquals('OK', $response->getBody());
     }
 }

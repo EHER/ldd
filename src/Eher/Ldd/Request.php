@@ -2,6 +2,8 @@
 
 namespace Eher\Ldd;
 
+use Guzzle\Service\Client;
+
 class Request
 {
     private $verb;
@@ -33,6 +35,32 @@ class Request
     public function proccessParameters($parameters)
     {
         $this->parameters = $parameters;
+    }
+
+    public function execute($client = null)
+    {
+        if ($client == null) {
+            $client = new Client();
+        }
+
+        $url = $this->protocol . '://' . $this->hostname . '/' . $this->path;
+
+        switch($this->verb) {
+        case 'get':
+            $request = $client->get($url);
+            break;
+        case 'post':
+            $request = $client->post($url);
+            break;
+        case 'put':
+            $request = $client->put($url);
+            break;
+        case 'delete':
+            $request = $client->delete($url);
+            break;
+        }
+
+        return new Response($request->send());
     }
 
     public function toJson()
