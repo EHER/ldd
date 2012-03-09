@@ -3,6 +3,7 @@
     "description": "Fake Rest API to generate BDD test cases",
     "require": {
         "eher/phpunit": "*",
+        "guzzle/guzzle": "2.2.2",
         "predis/predis": "v0.7.1"
     },
     "autoload": {
