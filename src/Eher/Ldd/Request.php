@@ -43,7 +43,7 @@ class Request
             $client = new Client();
         }
 
-        $url = $this->protocol . '://' . $this->hostname . '/' . $this->path;
+        $url = $this->protocol . '://' . $this->hostname . $this->path;
 
         switch($this->verb) {
         case 'get':
