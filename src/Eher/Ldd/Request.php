@@ -2,7 +2,8 @@
 
 namespace Eher\Ldd;
 
-use Guzzle\Service\Client;
+use Guzzle\Service\Client as GuzzleClient;
+use Predis\Client as PredisClient;
 
 class Request
 {
@@ -40,7 +41,7 @@ class Request
     public function execute($client = null)
     {
         if ($client == null) {
-            $client = new Client();
+            $client = new GuzzleClient();
         }
 
         $url = $this->protocol . '://' . $this->hostname . $this->path;
@@ -61,6 +62,19 @@ class Request
         }
 
         return new Response($request->send());
+    }
+
+    public function save($client = null)
+    {
+        if ($client == null) {
+            $client = new PredisClient();
+        }
+        $client->set($this->getId(), $this->toJson());
+    }
+
+    public function getId()
+    {
+        return md5($this->toJson());
     }
 
     public function toJson()
