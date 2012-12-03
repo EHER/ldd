@@ -1,10 +1,13 @@
 {
     "name": "eher/ldd",
     "description": "Fake Rest API to generate BDD test cases",
+    "license": "BSD-3-Clause",
     "require": {
-        "eher/phpunit": "*",
-        "guzzle/guzzle": "2.2.2",
-        "predis/predis": "v0.7.1"
+        "guzzle/guzzle": "v3.0.5",
+        "predis/predis": "v0.8.0"
+    },
+    "require-dev": {
+        "eher/phpunit": "1.6"
     },
     "autoload": {
         "psr-0": {
